@@ -1,4 +1,5 @@
 import axios from "axios";
+import bcrypt from "bcryptjs";
 
 export default {
     data: () => ({
@@ -6,11 +7,13 @@ export default {
         nome: '',
         email: '',
         senha: '',
-        status: 0,
-        tipo: 'V',
+        status: '',
+        tipo: '',
         classNome: false,
         classEmail: false,
-        classSenha: false
+        classSenha: false,
+        classStatus: false,
+        classTipo: false,
     }),
     methods: {
         listar(){            
@@ -37,6 +40,59 @@ export default {
                     alert('Ocorreu um erro');                    
             });           
         },
+        salvarUsuario() {
+           
+            if(this.validarCampos()) {  
+                let salt = bcrypt.genSaltSync(10);
+                let senha = bcrypt.hashSync(this.senha,salt);
+
+                let data = {
+                    'nome': this.nome,
+                    'email': this.email,
+                    'senha': senha,
+                    'status': this.status,
+                    'tipo': this.tipo
+                }
+
+                axios.post(`http://localhost:8000/api/v1/usuarios`,data)
+                    .then(() => {
+                        alert('Usuario cadastrado com sucesso');   
+                        this.nome = '';
+                        this.email = '';
+                        this.senha = '';
+                        this.status = '';
+                        this.tipo = '';                     
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro');
+                        console.log(error);
+                });
+            }
+        },
+        editarUsuario(id) {           
+            if(this.validarCampos()) {                                 
+                let salt = bcrypt.genSaltSync(10);
+                let senha = bcrypt.hashSync(this.senha,salt);
+
+                let data = {
+                    'nome': this.nome,
+                    'email': this.email,
+                    'senha': senha,
+                    'status': this.status,
+                    'tipo': this.tipo
+                }
+
+                axios.put(`http://localhost:8000/api/v1/usuarios/${id}`,data)
+                    .then(() => {
+                        alert('Usuario atualizado com sucesso');
+                        this.$router.push({ name: 'usuario'});
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro');
+                        console.log(error);
+                });
+            }           
+        },
         validarCampos() {    
             let erro = false;
 
@@ -59,6 +115,21 @@ export default {
                 erro = true;
             } else {
                 this.classSenha = false;
+            }
+
+            if(this.status === '') {   
+                alert('sim')             
+                this.classStatus = true;
+                erro = true;
+            } else {
+                this.classStatus = false;
+            }
+
+            if(this.tipo === '') {                
+                this.classTipo = true;
+                erro = true;
+            } else {
+                this.classTipo = false;
             }
 
             if(erro) {

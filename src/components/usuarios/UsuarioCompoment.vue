@@ -1,5 +1,8 @@
 <template>
     <div>
+        <router-link class="list-group-item mt-3" :to="{ name: 'cadastrousuario'}">
+            <button class="btn btn-primary">Adicionar</button>
+        </router-link>  
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -16,7 +19,7 @@
                     <td>{{usuario.id}}</td>
                     <td>{{usuario.nome}}</td>
                     <td>{{usuario.email}}</td>
-                    <td>{{usuario.status}}</td>
+                    <td>{{usuario.status == 1 ? 'Ativo' : 'Inativo'}}</td>
                     <td>{{usuario.tipo}}</td>
                     <td>
                         <router-link :to="{name: 'editarusuario', params: {id: usuario.id}}" class="btn btn-sm btn-primary me-2">

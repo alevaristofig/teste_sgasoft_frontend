@@ -6,6 +6,7 @@ import FornecedoresComponent from '@/components/fornecedores/FornecedoresCompone
 import ProdutosComponent from '@/components/produtos/ProdutosComponent.vue';
 import PedidosCompoment from '@/components/pedidos/PedidosCompoment.vue';
 import EditarUsuarioCompoment from '@/components/usuarios/EditarUsuarioCompoment.vue';
+import CadastroUsuarioComponent from '@/components/usuarios/CadastroUsuarioComponent.vue';
 
 const routes = [
     {
@@ -17,6 +18,11 @@ const routes = [
                 path: 'usuario',
                 component: UsuarioCompoment,
                 name: 'usuario'
+            },
+            {
+                path: 'cadastrousuario',
+                component: CadastroUsuarioComponent,
+                name: 'cadastrousuario'
             },
             {
                 path: 'usuario/:id',
