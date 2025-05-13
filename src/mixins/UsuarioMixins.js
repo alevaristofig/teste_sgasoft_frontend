@@ -40,8 +40,7 @@ export default {
                     alert('Ocorreu um erro');                    
             });           
         },
-        salvarUsuario() {
-           
+        salvarUsuario() {           
             if(this.validarCampos()) {  
                 let salt = bcrypt.genSaltSync(10);
                 let senha = bcrypt.hashSync(this.senha,salt);
@@ -68,6 +67,16 @@ export default {
                         console.log(error);
                 });
             }
+        },
+        apagar(id) {
+            axios.delete(`http://localhost:8000/api/v1/usuarios/${id}`)
+                .then(() => {                                        
+                    alert('Usuario deletado com sucesso!');                                 
+                })
+                .catch((error) =>{
+                    console.log(error);
+                    alert('Ocorreu um erro');                    
+            });     
         },
         editarUsuario(id) {           
             if(this.validarCampos()) {                                 
