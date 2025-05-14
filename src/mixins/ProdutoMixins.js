@@ -3,16 +3,18 @@ import axios from "axios";
 export default {
     data: () => ({
         produtos: [],
+        fornecedores: [],
+        fornecedor: '',
         nome: '',
-        cnpj: '',
-        cep: '',
-        endereco: '',
-        status: '',
+        fornecedor_id: '',
+        referencia: '',
+        cor: '',
+        preco: '',
         classNome: false,
-        classCnpj: false,
-        classCep: false,
-        classStatus: false,
-        classEndereco: false,
+        classReferencia: false,
+        classCor: false,
+        classPreco: false,
+        classFornecedor: false,
     }),
     methods: {
         listar(){                
@@ -25,6 +27,51 @@ export default {
                         console.log(error);
             })
         },
+        listarFornecedores(){                
+            axios.get('http://localhost:8000/api/v1/fornecedores')
+                    .then((response) => {                                             
+                        this.fornecedores = response.data
+                    })
+                    .catch((error) =>{                        
+                        console.log(error);
+            })
+        },
+        buscar(id) {
+            axios.get(`http://localhost:8000/api/v1/produtos/${id}`)
+                .then((response) => {                                        
+                    this.nome = response.data.nome;
+                    this.fornecedor = response.data.fornecedor_id;
+                    this.referencia = response.data.referencia;
+                    this.cor = response.data.cor;
+                    this.preco = response.data.preco;                                                        
+                })
+                .catch((error) =>{
+                    console.log(error);
+                    alert('Ocorreu um erro');                    
+            });           
+        },
+        editar(id) {           
+            if(this.validarCampos()) {                                                
+
+                let data = {
+                    'nome': this.nome,
+                    'fornecedor_id': this.fornecedor,
+                    'referencia': this.referencia,
+                    'cor': this.cor,
+                    'preco': this.preco
+                }
+
+                axios.put(`http://localhost:8000/api/v1/produtos/${id}`,data)
+                    .then(() => {
+                        alert('Produto atualizado com sucesso');
+                        this.$router.push({ name: 'produto'});
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro');
+                        console.log(error);
+                });
+            }           
+        },
         apagar(id) {
             axios.delete(`http://localhost:8000/api/v1/produtos/${id}`)
                 .then(() => {                                        
@@ -35,21 +82,7 @@ export default {
                     alert('Ocorreu um erro');                    
             });     
         },
-      /*  buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/fornecedores/${id}`)
-                .then((response) => {                                        
-                    this.nome = response.data.nome;
-                    this.cnpj = response.data.cnpj;
-                    this.cep = response.data.cep;
-                    this.status = response.data.status;
-                    this.endereco = response.data.endereco;
-                                    
-                })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
-            });           
-        },
+      /*  
         salvar() {           
             if(this.validarCampos()) {                  
                 let data = {
@@ -74,30 +107,9 @@ export default {
                         console.log(error);
                 });
             }
-        },
+        },*/
         
-        editar(id) {           
-            if(this.validarCampos()) {                                                
-
-                let data = {
-                    'nome': this.nome,
-                    'cnpj': this.cnpj,
-                    'cep': this.cep,
-                    'status': this.status,
-                    'endereco': this.endereco
-                }
-
-                axios.put(`http://localhost:8000/api/v1/fornecedores/${id}`,data)
-                    .then(() => {
-                        alert('Fornecedor atualizado com sucesso');
-                        this.$router.push({ name: 'fornecedor'});
-                    })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
-                });
-            }           
-        },
+        
         validarCampos() {    
             let erro = false;
 
@@ -108,32 +120,32 @@ export default {
                 this.classNome = false;
             }
 
-            if(this.cnpj === '') {                
-                this.classCnpj = true;
+            if(this.referencia === '') {                
+                this.classReferencia = true;
                 erro = true;
             } else {
-                this.classCnpj = false;
+                this.classReferencia = false;
             }
 
-            if(this.cep === '') {                
-                this.classCep = true;
+            if(this.cor === '') {                
+                this.classCor = true;
                 erro = true;
             } else {
-                this.classCep = false;
+                this.classCor = false;
             }
 
-            if(this.status === '') {                            
-                this.classStatus = true;
+            if(this.preco === '') {                            
+                this.classPreco = true;
                 erro = true;
             } else {
-                this.classStatus = false;
+                this.classPreco = false;
             }
 
-            if(this.endereco === '') {                
-                this.classEndereco = true;
+            if(this.fornecedor === '') {                
+                this.classFornecedor = true;
                 erro = true;
             } else {
-                this.classEndereco = false;
+                this.classFornecedor = false;
             }
 
             if(erro) {
@@ -141,6 +153,6 @@ export default {
             }
 
             return true;
-        }*/
+        }
     }
 }

@@ -24,7 +24,7 @@
                     <td>{{produto.cor}}</td>
                     <td>{{produto.preco}}</td>                                       
                     <td>
-                        <router-link :to="{name: 'editarfornecedor', params: {id: produto.id}}" class="btn btn-sm btn-primary me-2">
+                        <router-link :to="{name: 'editarproduto', params: {id: produto.id}}" class="btn btn-sm btn-primary me-2">
                             <i class="bi bi-pencil-square" style="cursor: pointer"></i>
                         </router-link>                         
                         <button class="btn btn-sm btn-danger" @click="apagar(produto.id)">
