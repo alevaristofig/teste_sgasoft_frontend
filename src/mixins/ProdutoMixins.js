@@ -25,6 +25,16 @@ export default {
                         console.log(error);
             })
         },
+        apagar(id) {
+            axios.delete(`http://localhost:8000/api/v1/produtos/${id}`)
+                .then(() => {                                        
+                    alert('Produto deletado com sucesso!');                                 
+                })
+                .catch((error) =>{
+                    console.log(error);
+                    alert('Ocorreu um erro');                    
+            });     
+        },
       /*  buscar(id) {
             axios.get(`http://localhost:8000/api/v1/fornecedores/${id}`)
                 .then((response) => {                                        
@@ -65,16 +75,7 @@ export default {
                 });
             }
         },
-        apagar(id) {
-            axios.delete(`http://localhost:8000/api/v1/fornecedores/${id}`)
-                .then(() => {                                        
-                    alert('Fornecedor deletado com sucesso!');                                 
-                })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
-            });     
-        },
+        
         editar(id) {           
             if(this.validarCampos()) {                                                
 
