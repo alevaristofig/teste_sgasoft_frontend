@@ -50,6 +50,31 @@ export default {
                     alert('Ocorreu um erro');                    
             });           
         },
+        salvar() {           
+            if(this.validarCampos()) {                  
+                let data = {
+                    'nome': this.nome,
+                    'fornecedor_id': this.fornecedor,
+                    'referencia': this.referencia,
+                    'cor': this.cor,
+                    'preco': this.preco
+                }
+
+                axios.post(`http://localhost:8000/api/v1/produtos`,data)
+                    .then(() => {
+                        alert('Produto cadastrado com sucesso');   
+                        this.nome = '';
+                        this.fornecedor = '';
+                        this.referencia = '';
+                        this.cor = '';
+                        this.preco = '';                     
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro');
+                        console.log(error);
+                });
+            }
+        },
         editar(id) {           
             if(this.validarCampos()) {                                                
 
@@ -81,35 +106,7 @@ export default {
                     console.log(error);
                     alert('Ocorreu um erro');                    
             });     
-        },
-      /*  
-        salvar() {           
-            if(this.validarCampos()) {                  
-                let data = {
-                    'nome': this.nome,
-                    'cnpj': this.cnpj,
-                    'cep': this.cep,
-                    'status': this.status,
-                    'endereco': this.endereco
-                }
-
-                axios.post(`http://localhost:8000/api/v1/fornecedores`,data)
-                    .then(() => {
-                        alert('Usuario cadastrado com sucesso');   
-                        this.nome = '';
-                        this.cnpj = '';
-                        this.cep = '';
-                        this.status = '';
-                        this.endereco = '';                     
-                    })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
-                });
-            }
-        },*/
-        
-        
+        },                
         validarCampos() {    
             let erro = false;
 

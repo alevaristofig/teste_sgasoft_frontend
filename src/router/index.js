@@ -9,6 +9,7 @@ import EditarUsuarioCompoment from '@/components/usuarios/EditarUsuarioCompoment
 import CadastroUsuarioComponent from '@/components/usuarios/CadastroUsuarioComponent.vue';
 import CadastroFornecedorComponent from '@/components/fornecedores/CadastroFornecedorComponent';
 import EditarFornecedorComponent from '@/components/fornecedores/EditarFornecedorComponent';
+import CadastroProdutoCompoment from '@/components/produtos/CadastroProdutoCompoment.vue';
 import EditarProdutoComponent from '@/components/produtos/EditarProdutoComponent';
 
 const routes = [
@@ -51,6 +52,11 @@ const routes = [
                 path: 'produto',
                 component: ProdutosComponent,
                 name: 'produto'
+            },
+            {
+                path: 'cadastroproduto',
+                component: CadastroProdutoCompoment,
+                name: 'cadastroproduto'
             },
             {
                 path: 'produto/:id',
