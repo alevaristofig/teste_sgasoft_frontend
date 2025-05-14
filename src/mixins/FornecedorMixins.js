@@ -24,21 +24,21 @@ export default {
                         console.log(error);
             })
         },
-        /*buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/usuarios/${id}`)
+        buscar(id) {
+            axios.get(`http://localhost:8000/api/v1/fornecedores/${id}`)
                 .then((response) => {                                        
                     this.nome = response.data.nome;
-                    this.email = response.data.email;
-                    this.senha = response.data.senha;
+                    this.cnpj = response.data.cnpj;
+                    this.cep = response.data.cep;
                     this.status = response.data.status;
-                    this.tipo = response.data.tipo;
+                    this.endereco = response.data.endereco;
                                     
                 })
                 .catch((error) =>{
                     console.log(error);
                     alert('Ocorreu um erro');                    
             });           
-        },*/
+        },
         buscarCep() {
             axios.get(`https://viacep.com.br/ws/${this.cep}/json/`)
                 .then((response) => {                                        
@@ -86,31 +86,29 @@ export default {
                     console.log(error);
                     alert('Ocorreu um erro');                    
             });     
-        },
-        editarUsuario(id) {           
-            if(this.validarCampos()) {                                 
-                let salt = bcrypt.genSaltSync(10);
-                let senha = bcrypt.hashSync(this.senha,salt);
+        },*/
+        editar(id) {           
+            if(this.validarCampos()) {                                                
 
                 let data = {
                     'nome': this.nome,
-                    'email': this.email,
-                    'senha': senha,
+                    'cnpj': this.cnpj,
+                    'cep': this.cep,
                     'status': this.status,
-                    'tipo': this.tipo
+                    'endereco': this.endereco
                 }
 
-                axios.put(`http://localhost:8000/api/v1/usuarios/${id}`,data)
+                axios.put(`http://localhost:8000/api/v1/fornecedores/${id}`,data)
                     .then(() => {
-                        alert('Usuario atualizado com sucesso');
-                        this.$router.push({ name: 'usuario'});
+                        alert('Fornecedor atualizado com sucesso');
+                        this.$router.push({ name: 'fornecedor'});
                     })
                     .catch((error) =>{
                         alert('Ocorreu um erro');
                         console.log(error);
                 });
             }           
-        },*/
+        },
         validarCampos() {    
             let erro = false;
 

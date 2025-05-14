@@ -24,7 +24,7 @@
                     <td>{{fornecedor.endereco}}</td>
                     <td>{{fornecedor.status == 1 ? 'Ativo' : 'Inativo'}}</td>                    
                     <td>
-                        <router-link :to="{name: 'editarusuario', params: {id: fornecedor.id}}" class="btn btn-sm btn-primary me-2">
+                        <router-link :to="{name: 'editarfornecedor', params: {id: fornecedor.id}}" class="btn btn-sm btn-primary me-2">
                             <i class="bi bi-pencil-square" style="cursor: pointer"></i>
                         </router-link>                         
                         <button class="btn btn-sm btn-danger" @click="apagar(usuario.id)">
