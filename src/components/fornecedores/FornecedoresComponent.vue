@@ -27,7 +27,7 @@
                         <router-link :to="{name: 'editarfornecedor', params: {id: fornecedor.id}}" class="btn btn-sm btn-primary me-2">
                             <i class="bi bi-pencil-square" style="cursor: pointer"></i>
                         </router-link>                         
-                        <button class="btn btn-sm btn-danger" @click="apagar(usuario.id)">
+                        <button class="btn btn-sm btn-danger" @click="apagar(fornecedor.id)">
                             <i class="bi bi-trash-fill" style="cursor: pointer"></i>
                         </button>
                     </td>

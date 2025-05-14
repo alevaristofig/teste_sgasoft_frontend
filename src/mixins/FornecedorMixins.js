@@ -77,16 +77,16 @@ export default {
                 });
             }
         },
-      /*  apagar(id) {
-            axios.delete(`http://localhost:8000/api/v1/usuarios/${id}`)
+        apagar(id) {
+            axios.delete(`http://localhost:8000/api/v1/fornecedores/${id}`)
                 .then(() => {                                        
-                    alert('Usuario deletado com sucesso!');                                 
+                    alert('Fornecedor deletado com sucesso!');                                 
                 })
                 .catch((error) =>{
                     console.log(error);
                     alert('Ocorreu um erro');                    
             });     
-        },*/
+        },
         editar(id) {           
             if(this.validarCampos()) {                                                
 
