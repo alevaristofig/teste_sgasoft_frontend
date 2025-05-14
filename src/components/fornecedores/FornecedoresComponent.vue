@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link class="list-group-item mt-3" :to="{ name: 'cadastrousuario'}">
+        <router-link class="list-group-item mt-3" :to="{ name: 'cadastrofornecedor'}">
             <button class="btn btn-primary">Adicionar</button>
         </router-link>  
         <table class="table table-hover">

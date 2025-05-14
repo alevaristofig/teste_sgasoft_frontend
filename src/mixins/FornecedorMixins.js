@@ -38,28 +38,38 @@ export default {
                     console.log(error);
                     alert('Ocorreu um erro');                    
             });           
+        },*/
+        buscarCep() {
+            axios.get(`https://viacep.com.br/ws/${this.cep}/json/`)
+                .then((response) => {                                        
+                    let resp = response.data;                    
+                    this.endereco = `${resp.logradouro} ${resp.complemento} ${resp.bairro} ${resp.localidade} ${resp.uf} ${resp.cep}`
+                                    
+                })
+                .catch((error) =>{
+                    console.log(error);
+                    alert('Ocorreu um erro');                    
+            });
+            
         },
-        salvarUsuario() {           
-            if(this.validarCampos()) {  
-                let salt = bcrypt.genSaltSync(10);
-                let senha = bcrypt.hashSync(this.senha,salt);
-
+        salvar() {           
+            if(this.validarCampos()) {                  
                 let data = {
                     'nome': this.nome,
-                    'email': this.email,
-                    'senha': senha,
+                    'cnpj': this.cnpj,
+                    'cep': this.cep,
                     'status': this.status,
-                    'tipo': this.tipo
+                    'endereco': this.endereco
                 }
 
-                axios.post(`http://localhost:8000/api/v1/usuarios`,data)
+                axios.post(`http://localhost:8000/api/v1/fornecedores`,data)
                     .then(() => {
                         alert('Usuario cadastrado com sucesso');   
                         this.nome = '';
-                        this.email = '';
-                        this.senha = '';
+                        this.cnpj = '';
+                        this.cep = '';
                         this.status = '';
-                        this.tipo = '';                     
+                        this.endereco = '';                     
                     })
                     .catch((error) =>{
                         alert('Ocorreu um erro');
@@ -67,7 +77,7 @@ export default {
                 });
             }
         },
-        apagar(id) {
+      /*  apagar(id) {
             axios.delete(`http://localhost:8000/api/v1/usuarios/${id}`)
                 .then(() => {                                        
                     alert('Usuario deletado com sucesso!');                                 
@@ -111,33 +121,32 @@ export default {
                 this.classNome = false;
             }
 
-            if(this.email === '') {                
-                this.classEmail = true;
+            if(this.cnpj === '') {                
+                this.classCnpj = true;
                 erro = true;
             } else {
-                this.classEmail = false;
+                this.classCnpj = false;
             }
 
-            if(this.senha === '') {                
-                this.classSenha = true;
+            if(this.cep === '') {                
+                this.classCep = true;
                 erro = true;
             } else {
-                this.classSenha = false;
+                this.classCep = false;
             }
 
-            if(this.status === '') {   
-                alert('sim')             
+            if(this.status === '') {                            
                 this.classStatus = true;
                 erro = true;
             } else {
                 this.classStatus = false;
             }
 
-            if(this.tipo === '') {                
-                this.classTipo = true;
+            if(this.endereco === '') {                
+                this.classEndereco = true;
                 erro = true;
             } else {
-                this.classTipo = false;
+                this.classEndereco = false;
             }
 
             if(erro) {

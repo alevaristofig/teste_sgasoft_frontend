@@ -7,6 +7,7 @@ import ProdutosComponent from '@/components/produtos/ProdutosComponent.vue';
 import PedidosCompoment from '@/components/pedidos/PedidosCompoment.vue';
 import EditarUsuarioCompoment from '@/components/usuarios/EditarUsuarioCompoment.vue';
 import CadastroUsuarioComponent from '@/components/usuarios/CadastroUsuarioComponent.vue';
+import CadastroFornecedorComponent from '@/components/fornecedores/CadastroFornecedorComponent';
 
 const routes = [
     {
@@ -33,6 +34,11 @@ const routes = [
                 path: 'fornecedor',
                 component: FornecedoresComponent,
                 name: 'fornecedor'
+            },
+             {
+                path: 'cadastrofornecedor',
+                component: CadastroFornecedorComponent,
+                name: 'cadastrofornecedor'
             },
             {
                 path: 'produto',
