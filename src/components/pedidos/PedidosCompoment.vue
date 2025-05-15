@@ -52,11 +52,7 @@
                             <option value="CON">Concluído</option>
                             <option value="CAN">Cancelado</option>     
                         </select>
-                    </td>
-                    <td>
-                        
-                    </td>
-                    
+                    </td>                    
                 </tr>
             </tbody>
         </table>

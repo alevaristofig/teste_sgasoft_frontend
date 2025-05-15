@@ -14,6 +14,7 @@ import EditarProdutoComponent from '@/components/produtos/EditarProdutoComponent
 import UsuarioFornecedorComponent from '@/components/usuarios/UsuarioFornecedorComponent.vue';
 import CarrinhoComponent from '@/components/pedidos/CarrinhoComponent.vue';
 import ListaPedidosComponent from '@/components/pedidos/ListaPedidosComponent.vue';
+import EditarPedidoComponent from "@/components/pedidos/EditarPedidoComponent.vue";
 
 const routes = [
     {
@@ -85,7 +86,12 @@ const routes = [
                 path: 'listapedido',
                 component: ListaPedidosComponent,
                 name: 'listapedido'
-            }
+            },
+            {
+                path: 'pedido/:id',
+                component: EditarPedidoComponent,
+                name: 'editarpedido'
+            },
         ]
     }
 ];
