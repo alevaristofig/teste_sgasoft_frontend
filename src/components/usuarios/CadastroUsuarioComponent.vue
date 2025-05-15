@@ -45,7 +45,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-primary" @click="salvarUsuario()">Editar</button>
+            <button type="button" class="btn btn-primary" @click="salvar()">Editar</button>
         </div>
     </div>
 </template>

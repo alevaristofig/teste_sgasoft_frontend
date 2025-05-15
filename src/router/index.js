@@ -10,7 +10,9 @@ import CadastroUsuarioComponent from '@/components/usuarios/CadastroUsuarioCompo
 import CadastroFornecedorComponent from '@/components/fornecedores/CadastroFornecedorComponent';
 import EditarFornecedorComponent from '@/components/fornecedores/EditarFornecedorComponent';
 import CadastroProdutoCompoment from '@/components/produtos/CadastroProdutoCompoment.vue';
-import EditarProdutoComponent from '@/components/produtos/EditarProdutoComponent';
+import EditarProdutoComponent from '@/components/produtos/EditarProdutoComponent.vue';
+import UsuarioFornecedorComponent from '@/components/usuarios/UsuarioFornecedorComponent.vue';
+import CarrinhoComponent from '@/components/pedidos/CarrinhoComponent.vue';
 
 const routes = [
     {
@@ -21,7 +23,12 @@ const routes = [
             {
                 path: 'usuario',
                 component: UsuarioCompoment,
-                name: 'usuario'
+                name: 'usuario',                
+            },
+            {
+                path: 'usuariofornecedor',
+                component: UsuarioFornecedorComponent,
+                name: 'usuariofornecedor'
             },
             {
                 path: 'cadastrousuario',
@@ -67,6 +74,11 @@ const routes = [
                 path: 'pedido',
                 component: PedidosCompoment,
                 name: 'pedido'
+            },
+             {
+                path: 'carrinho',
+                component: CarrinhoComponent,
+                name: 'carrinho'
             }
         ]
     }

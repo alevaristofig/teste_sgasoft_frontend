@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 export default {
     data: () => ({
         usuarios: [],
+        usuariosVendedor: [],
         nome: '',
         email: '',
         senha: '',
@@ -40,15 +41,15 @@ export default {
                     alert('Ocorreu um erro');                    
             });           
         },
-        salvarUsuario() {           
+        salvar() {           
             if(this.validarCampos()) {  
                 let salt = bcrypt.genSaltSync(10);
                 let senha = bcrypt.hashSync(this.senha,salt);
 
                 let data = {
-                    'nome': this.nome,
+                    'name': this.nome,
                     'email': this.email,
-                    'senha': senha,
+                    'password': senha,
                     'status': this.status,
                     'tipo': this.tipo
                 }
@@ -84,9 +85,9 @@ export default {
                 let senha = bcrypt.hashSync(this.senha,salt);
 
                 let data = {
-                    'nome': this.nome,
+                    'name': this.nome,
                     'email': this.email,
-                    'senha': senha,
+                    'password': senha,
                     'status': this.status,
                     'tipo': this.tipo
                 }
@@ -101,7 +102,7 @@ export default {
                         console.log(error);
                 });
             }           
-        },
+        },        
         validarCampos() {    
             let erro = false;
 

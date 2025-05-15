@@ -17,10 +17,10 @@
             <tbody>
                 <tr v-for="(usuario,i) in usuarios" :key="{i}">
                     <td>{{usuario.id}}</td>
-                    <td>{{usuario.nome}}</td>
+                    <td>{{usuario.name}}</td>
                     <td>{{usuario.email}}</td>
                     <td>{{usuario.status == 1 ? 'Ativo' : 'Inativo'}}</td>
-                    <td>{{usuario.tipo}}</td>
+                    <td>{{usuario.tipo == 'A' ? 'Admin' : 'Vendedor'}}</td>
                     <td>
                         <router-link :to="{name: 'editarusuario', params: {id: usuario.id}}" class="btn btn-sm btn-primary me-2">
                             <i class="bi bi-pencil-square" style="cursor: pointer"></i>

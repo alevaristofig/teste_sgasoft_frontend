@@ -17,7 +17,7 @@ export default {
     methods: {
         listar(){                
             axios.get('http://localhost:8000/api/v1/fornecedores')
-                    .then((response) => {                                             
+                    .then((response) => {                                                                 
                         this.fornecedores = response.data
                     })
                     .catch((error) =>{                        
@@ -64,7 +64,7 @@ export default {
 
                 axios.post(`http://localhost:8000/api/v1/fornecedores`,data)
                     .then(() => {
-                        alert('Usuario cadastrado com sucesso');   
+                        alert('Fornecedor cadastrado com sucesso');   
                         this.nome = '';
                         this.cnpj = '';
                         this.cep = '';

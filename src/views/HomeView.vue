@@ -17,6 +17,9 @@
       <div class="list-group menu_esquerdo">
         <router-link class="list-group-item" :to="{ name: 'usuario'}" exact-active-class="true">
           <i class="bi bi-person-vcard-fill">Usuário</i>
+        </router-link>   
+        <router-link class="list-group-item" :to="{ name: 'usuariofornecedor'}" exact-active-class="true">
+          <i class="bi bi-people-fill">Usuário x Fornecedor</i>
         </router-link>     
         <router-link class="list-group-item" :to="{ name: 'fornecedor'}" exact-active-class="true">
           <i class="bi bi-person-fill-up">Fornecedores</i>
