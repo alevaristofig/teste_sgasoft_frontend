@@ -4,6 +4,11 @@
             <router-link class="list-group-item mt-3" :to="{ name: 'carrinho'}">
                 <button class="btn btn-primary">Ver Carrinho</button>
             </router-link>  
+        </div>   
+        <div>
+            <router-link class="list-group-item mt-3" :to="{ name: 'listapedido'}">
+                <button class="btn btn-primary">Ver Pedido</button>
+            </router-link>  
         </div>        
         <table class="table table-hover">
             <thead>

@@ -13,6 +13,7 @@ import CadastroProdutoCompoment from '@/components/produtos/CadastroProdutoCompo
 import EditarProdutoComponent from '@/components/produtos/EditarProdutoComponent.vue';
 import UsuarioFornecedorComponent from '@/components/usuarios/UsuarioFornecedorComponent.vue';
 import CarrinhoComponent from '@/components/pedidos/CarrinhoComponent.vue';
+import ListaPedidosComponent from '@/components/pedidos/ListaPedidosComponent.vue';
 
 const routes = [
     {
@@ -75,10 +76,15 @@ const routes = [
                 component: PedidosCompoment,
                 name: 'pedido'
             },
-             {
+            {
                 path: 'carrinho',
                 component: CarrinhoComponent,
                 name: 'carrinho'
+            },
+            {
+                path: 'listapedido',
+                component: ListaPedidosComponent,
+                name: 'listapedido'
             }
         ]
     }

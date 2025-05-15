@@ -2,7 +2,11 @@ import axios from "axios";
 
 export default {
     data: () => ({    
-        carrinho: []    
+        carrinho: [],
+        pedidos: [],
+        produtos: [],
+        valorTotal: 0,
+        quantidadeTotal: 0    
     }),
     methods: {
         acionarCarrinho(i,produtos) {
@@ -41,7 +45,29 @@ export default {
                         console.log(error);
             });
         },
+        listarPedidos() {
+            axios.get(`http://localhost:8000/api/v1/pedidos`)
+                    .then((response) => {
+                        this.pedidos = response.data;                       
+
+                        for(const p in this.pedidos) {
+                            let aux = JSON.parse(this.pedidos[p].produtos);
+                            this.produtos[p] = {
+                                'quantidade': aux.quantidade,
+                                'valor': aux.valor
+                            }
+
+                            this.valorTotal+= aux.valor;
+                            this.quantidadeTotal+= parseInt(aux.quantidade);
+                        }                                                
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro'+ error);
+                        console.log(error);
+            });
+        },
         listarCarrinho() {
+            alert('ok')
             axios.get(`http://localhost:8000/api/v1/pedidos/listarcarrinho`)
                     .then((response) => {
                         this.carrinho = response.data;                        
@@ -82,6 +108,17 @@ export default {
                     .catch((error) =>{
                         alert('Ocorreu um erro'+ error);
                         console.log(error);
+            });
+        },
+        apagarPedido(id) {
+            axios.delete(`http://localhost:8000/api/v1/pedidos/${id}`)
+                .then(() => {                                        
+                    alert('Pedido deletado com sucesso!');  
+                    this.$router.push({ name: 'pedido'});                               
+                })
+                .catch((error) =>{
+                    console.log(error);
+                    alert('Ocorreu um erro');                    
             });
         }
     }

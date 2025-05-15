@@ -46,7 +46,7 @@
     export default {
         name: 'CarrinhoComponent',
         mixins: [PedidoMixins],
-        created() {
+        created() {            
             this.listarCarrinho();
         }    
     }
