@@ -47,6 +47,28 @@ export default {
                         alert('Ocorreu um erro'+ error);
                         console.log(error);
             });
+        },
+        apagarItemCarrinho(id) {            
+            axios.get(`http://localhost:8000/api/v1/pedidos/retiraritemcarrinho/${id}`)
+                    .then((response) => {
+                        console.log(response);                                               
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro'+ error);
+                        console.log(error);
+            });
+        },
+        removerCarrinho() {
+            axios.get(`http://localhost:8000/api/v1/pedidos/apagarCarrinho`)
+                .then((response) => {
+                    alert('Carrinho removido com sucesso')
+                    //this.carrinho = response.data;  
+                    console.log(response);                      
+                })
+                .catch((error) =>{
+                    alert('Ocorreu um erro'+ error);
+                    console.log(error);
+            });
         }
     }
 }

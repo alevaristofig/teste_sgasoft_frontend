@@ -10,6 +10,11 @@
                 <button class="btn btn-primary">Ver Carrinho</button>
             </router-link>  
         </div>
+        <div>
+            <button class="btn btn-primary" @click="removerCarrinho()">
+                Remover Carrinho
+            </button>              
+        </div>
         <table class="table table-hover">
             <thead>
                 <tr>

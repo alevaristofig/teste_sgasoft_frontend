@@ -25,7 +25,7 @@
                     <td v-if="!isNaN(i)">{{carrinho.valor}}</td>
                     <td v-if="!isNaN(i)">{{carrinho.quantidade}}</td>                                       
                     <td v-if="!isNaN(i)">                      
-                        <button class="btn btn-sm btn-danger" @click="apagar(carrinho.id)" title="Retirar produto do carrinho">
+                        <button class="btn btn-sm btn-danger" @click="apagarItemCarrinho(carrinho.id)" title="Retirar produto do carrinho">
                             <i class="bi bi-trash-fill" style="cursor: pointer"></i>
                         </button>
                     </td>                    
