@@ -11,10 +11,13 @@ export default {
             let observacao = document.getElementById('observacao_'+i);
             let status = document.getElementById('status_'+i);
             let dataAtual = new Date();
-       
+            dataAtual = dataAtual.toISOString();
+            dataAtual = dataAtual.replace('T',' ');
+            dataAtual = dataAtual.replace('Z',' ');
+
             let data = {
                 'fornecedor_id': produtos[i].fornecedor_id,
-                'data': dataAtual.toISOString(),
+                'data': dataAtual,
                 'produtos': {
                     'id': produtos[i].id,
                     'valor': produtos[i].preco,
@@ -61,13 +64,24 @@ export default {
         removerCarrinho() {
             axios.get(`http://localhost:8000/api/v1/pedidos/apagarCarrinho`)
                 .then((response) => {
-                    alert('Carrinho removido com sucesso')
-                    //this.carrinho = response.data;  
-                    console.log(response);                      
+                    alert('Carrinho removido com sucesso')                                     
+                    console.log(response);     
+                    
+                     this.$router.push({ name: 'pedido'});
                 })
                 .catch((error) =>{
                     alert('Ocorreu um erro'+ error);
                     console.log(error);
+            });
+        },
+        confirmar() {
+            axios.get(`http://localhost:8000/api/v1/pedidos/confirmarpedido`)
+                    .then((response) => {
+                        console.log(response);                                               
+                    })
+                    .catch((error) =>{
+                        alert('Ocorreu um erro'+ error);
+                        console.log(error);
             });
         }
     }

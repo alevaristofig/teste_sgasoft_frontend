@@ -1,14 +1,14 @@
 <template>
     <div>
         <div>
-            <router-link class="list-group-item mt-3" :to="{ name: 'cadastroproduto'}">
-                <button class="btn btn-primary">Adicionar</button>
-            </router-link>  
+            <button class="btn btn-primary" @click="confirmar()">
+                Confirmar
+            </button>  
         </div>
         <div>
-            <router-link class="list-group-item mt-3" :to="{ name: 'carrinho'}">
-                <button class="btn btn-primary">Ver Carrinho</button>
-            </router-link>  
+            <button class="btn btn-primary" @click="removerCarrinho()">
+                Remover Carrinho
+            </button>              
         </div>
         <table class="table table-hover">
             <thead>
