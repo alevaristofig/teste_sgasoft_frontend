@@ -50,6 +50,10 @@
         name: "FornecedorMixins",
         mixins: [FornecedorMixins],
         created() {
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+            
             this.buscar(this.$route.params.id);
         }
     }

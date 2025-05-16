@@ -35,7 +35,11 @@ export default {
             })
         },
         buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/fornecedores/${id}`)
+            axios.get(`http://localhost:8000/api/v1/fornecedores/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
                 .then((response) => {                                        
                     this.nome = response.data.nome;
                     this.cnpj = response.data.cnpj;
@@ -44,9 +48,12 @@ export default {
                     this.endereco = response.data.endereco;
                                     
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const buscaError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    buscaError();                   
             });           
         },
         buscarCep() {
@@ -56,9 +63,12 @@ export default {
                     this.endereco = `${resp.logradouro} ${resp.complemento} ${resp.bairro} ${resp.localidade} ${resp.uf} ${resp.cep}`
                                     
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const cepError = () => {
+                        toast("Cep Inválido,", { type: "error" });
+                    };
+
+                    cepError();                    
             });
             
         },
@@ -72,29 +82,52 @@ export default {
                     'endereco': this.endereco
                 }
 
-                axios.post(`http://localhost:8000/api/v1/fornecedores`,data)
-                    .then(() => {
-                        alert('Fornecedor cadastrado com sucesso');   
+                axios.post(`http://localhost:8000/api/v1/fornecedores`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
+                    .then(() => {                          
                         this.nome = '';
                         this.cnpj = '';
                         this.cep = '';
                         this.status = '';
-                        this.endereco = '';                     
+                        this.endereco = '';   
+                        
+                        const insertSucesso = () => {
+                            toast("Fornecedor criado com sucesso,", { type: "success" });
+                        };  
+                        
+                        insertSucesso();   
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                       const insertError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        insertError();
                 });
             }
         },
         apagar(id) {
-            axios.delete(`http://localhost:8000/api/v1/fornecedores/${id}`)
-                .then(() => {                                        
-                    alert('Fornecedor deletado com sucesso!');                                 
+            axios.delete(`http://localhost:8000/api/v1/fornecedores/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .then(() => {                                        
+                    const delSucesso = () => {
+                        toast("Fornecedor removido com sucesso,", { type: "success" });
+                    };  
+                                                
+                    delSucesso();                                 
+                })
+                .catch(() =>{
+                    const delError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    delError();                    
             });     
         },
         editar(id) {           
@@ -108,14 +141,28 @@ export default {
                     'endereco': this.endereco
                 }
 
-                axios.put(`http://localhost:8000/api/v1/fornecedores/${id}`,data)
-                    .then(() => {
-                        alert('Fornecedor atualizado com sucesso');
-                        this.$router.push({ name: 'fornecedor'});
+                axios.put(`http://localhost:8000/api/v1/fornecedores/${id}`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .then(() => {
+                       const editaSucesso = () => {
+                            toast("Fornecedor atualizado com sucesso,", { type: "success" });
+                        };  
+                                                
+                        editaSucesso();  
+
+                        setTimeout(() => {
+                            this.$router.push({ name: 'fornecedor'});
+                        }, 7000);                        
+                    })
+                    .catch(() =>{
+                        const editaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        editaError();
                 });
             }           
         },

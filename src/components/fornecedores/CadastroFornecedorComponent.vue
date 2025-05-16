@@ -49,5 +49,12 @@
     export default {
         name: "FornecedorMixins",
         mixins: [FornecedorMixins],
+        created() {
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+            
+            console.log(sessionStorage.getItem('token'));
+        } 
     }
 </script>

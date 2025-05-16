@@ -44,10 +44,10 @@
         name: "UsuarioFornecedorComponent",
         mixins: [FornecedorMixins,UsuarioFornecedorMixins],
         created() { 
-             if(sessionStorage.getItem('token') === null) {
+            if(sessionStorage.getItem('token') === null) {
                 this.$router.push({ name: 'login'});  
             } 
-                       
+
             this.listar();
             this.buscarUsuarioVendedor();
         }

@@ -44,6 +44,10 @@
         name: 'FornecedorComponent',
         mixins: [FornecedorMixins],
         created() {
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+            
             this.listar();
         }    
     }
