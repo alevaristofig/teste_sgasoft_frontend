@@ -46,7 +46,11 @@
     export default {
         name: 'CarrinhoComponent',
         mixins: [PedidoMixins],
-        created() {            
+        created() {   
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+                     
             this.listarCarrinho();
         }    
     }

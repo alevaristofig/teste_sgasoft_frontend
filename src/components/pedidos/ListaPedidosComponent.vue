@@ -55,6 +55,10 @@
         name: 'ListaPedidosComponent',
         mixins: [PedidoMixins],
         created() {
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+
             this.listarPedidos();
         }    
     }

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     data: () => ({    
@@ -39,21 +41,36 @@ export default {
                 'status': status.value
             }
 
-            axios.post(`http://localhost:8000/api/v1/pedidos`,data)
-                    .then(() => {
-                        alert('Produto adicionado no carrinho');    
-                        
+            axios.post(`http://localhost:8000/api/v1/pedidos`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
+                    .then(() => {                                                  
                         quantidade.value = '';
                         observacao.value = '';
                         status.value = '';
+
+                        const insertCarrinhoSucesso = () => {
+                            toast("Produto adicionado no carrinho,", { type: "success" });
+                        };  
+                        
+                        insertCarrinhoSucesso();
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro'+ error);
-                        console.log(error);
+                    .catch(() =>{
+                         const insertCarrinhoError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        insertCarrinhoError();
             });
         },
         listarPedidos() {
-            axios.get(`http://localhost:8000/api/v1/pedidos`)
+            axios.get(`http://localhost:8000/api/v1/pedidos`,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then((response) => {
                         this.pedidos = response.data;                       
 
@@ -69,67 +86,125 @@ export default {
                             this.quantidadeTotal+= parseInt(aux.quantidade);
                         }                                                
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro'+ error);
-                        console.log(error);
+                    .catch(() =>{
+                        const listaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        listaError();
             });
         },
         listarCarrinho() {            
-            axios.get(`http://localhost:8000/api/v1/pedidos/listarcarrinho`)
+            axios.get(`http://localhost:8000/api/v1/pedidos/listarcarrinho`,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then((response) => {
                         this.carrinho = response.data;                        
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro'+ error);
-                        console.log(error);
+                    .catch(() =>{
+                        const listaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        listaError();
             });
         },
         apagarItemCarrinho(id) {            
-            axios.get(`http://localhost:8000/api/v1/pedidos/retiraritemcarrinho/${id}`)
-                    .then((response) => {
-                        console.log(response);                                               
+            axios.get(`http://localhost:8000/api/v1/pedidos/retiraritemcarrinho/${id}`,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro'+ error);
-                        console.log(error);
+                    .then(() => {
+                        const insertCarrinhoSucesso = () => {
+                            toast("Produto retirado do carrinho,", { type: "success" });
+                        };  
+                        
+                        insertCarrinhoSucesso();                                             
+                    })
+                    .catch(() =>{
+                        const delCarrinhoError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        delCarrinhoError();
             });
         },
         removerCarrinho() {
-            axios.get(`http://localhost:8000/api/v1/pedidos/apagarCarrinho`)
-                .then((response) => {
-                    alert('Carrinho removido com sucesso')                                     
-                    console.log(response);     
+            axios.get(`http://localhost:8000/api/v1/pedidos/apagarCarrinho`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
+                .then(() => {
+                    const delCarrinhoSucesso = () => {
+                            toast("Carrinho removido com sucesso,", { type: "success" });
+                    };  
+                        
+                    delCarrinhoSucesso();    
                     
                      this.$router.push({ name: 'pedido'});
                 })
-                .catch((error) =>{
-                    alert('Ocorreu um erro'+ error);
-                    console.log(error);
+                .catch(() =>{
+                    const delCarrinhoError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    delCarrinhoError();
             });
         },
         confirmar() {
-            axios.get(`http://localhost:8000/api/v1/pedidos/confirmarpedido`)
-                    .then((response) => {
-                        console.log(response);                                               
+            axios.get(`http://localhost:8000/api/v1/pedidos/confirmarpedido`,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro'+ error);
-                        console.log(error);
+                    .then(() => {
+                        const confirmarSucesso = () => {
+                            toast("Pedido registrado com sucesso,", { type: "success" });
+                        };  
+                        
+                        confirmarSucesso();                                               
+                    })
+                    .catch(() =>{
+                        const confirmarError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        confirmarError();
             });
         },
         apagarPedido(id) {
-            axios.delete(`http://localhost:8000/api/v1/pedidos/${id}`)
+            axios.delete(`http://localhost:8000/api/v1/pedidos/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
                 .then(() => {                                        
-                    alert('Pedido deletado com sucesso!');  
+                    const apagarSucesso = () => {
+                        toast("Pedido removido com sucesso,", { type: "success" });
+                    };  
+                        
+                    apagarSucesso();
+
                     this.$router.push({ name: 'pedido'});                               
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const apagarError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    apagarError();                   
             });
         },
         buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/pedidos/${id}`)
+            axios.get(`http://localhost:8000/api/v1/pedidos/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
                 .then((response) => {    
                     let aux = JSON.parse(response.data.produtos);
                                         
@@ -137,9 +212,12 @@ export default {
                     this.observacao = response.data.observacao;
                     this.status = response.data.status;                                                        
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const buscarError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    buscarError();                     
             }); 
         },
         editar(id) {
@@ -149,14 +227,26 @@ export default {
                     'status': this.status
                 };
 
-                axios.patch(`http://localhost:8000/api/v1/pedidos/${id}`,data)
+                axios.patch(`http://localhost:8000/api/v1/pedidos/${id}`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then(() => {
-                        alert('Pedido atualizado com sucesso');
+                        const editarSucesso = () => {
+                            toast("Pedido atualizado com sucesso,", { type: "success" });
+                        };  
+                        
+                        editarSucesso(); 
+
                         this.$router.push({ name: 'listapedido'});
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                        const buscarError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    buscarError(); 
                 });
 
             }
