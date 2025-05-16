@@ -16,6 +16,7 @@ import UsuarioFornecedorComponent from '@/components/usuarios/UsuarioFornecedorC
 import CarrinhoComponent from '@/components/pedidos/CarrinhoComponent.vue';
 import ListaPedidosComponent from '@/components/pedidos/ListaPedidosComponent.vue';
 import EditarPedidoComponent from "@/components/pedidos/EditarPedidoComponent.vue";
+import FornecedorPedidoComponent from '@/components/fornecedores/FornecedorPedidoComponent';
 
 const routes = [
     {
@@ -93,6 +94,11 @@ const routes = [
                 component: EditarPedidoComponent,
                 name: 'editarpedido'
             },
+            {
+                path: 'fornecedorpedido/:cnpj',
+                component: FornecedorPedidoComponent,
+                name: 'fornecedorpedido'
+            }
         ]
     },
     {

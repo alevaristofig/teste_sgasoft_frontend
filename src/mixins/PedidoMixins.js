@@ -122,7 +122,9 @@ export default {
                             toast("Produto retirado do carrinho,", { type: "success" });
                         };  
                         
-                        insertCarrinhoSucesso();                                             
+                        insertCarrinhoSucesso();  
+                        
+                        this.$router.push({ name: 'pedido'}); 
                     })
                     .catch(() =>{
                         const delCarrinhoError = () => {

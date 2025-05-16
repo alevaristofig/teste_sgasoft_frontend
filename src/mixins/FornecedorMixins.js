@@ -5,6 +5,10 @@ import 'vue3-toastify/dist/index.css';
 export default {
     data: () => ({
         fornecedores: [],
+        pedidosFornecedor: [],
+        produtosFornecedor: [],
+        valorTotal: 0,
+        quantidadeTotal: 0,
         nome: '',
         cnpj: '',
         cep: '',
@@ -165,6 +169,41 @@ export default {
                         editaError();
                 });
             }           
+        },
+        buscarPedidoCnpj(cnpj) {
+            cnpj = cnpj.replace(["."],"");
+            cnpj = cnpj.replace(["."],"");
+            cnpj = cnpj.replace(["/"],"");
+            cnpj = cnpj.replace(["-"],"");
+            
+            axios.get(`http://localhost:8000/api/v1/fornecedores/${cnpj}/pedidos`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
+                .then((response) => {                                                         
+                        this.pedidosFornecedor = response.data;   
+                        
+                        for(const p in this.pedidosFornecedor) {                            
+                            let aux = JSON.parse(this.pedidosFornecedor[p].produtos);
+                           
+                            this.produtosFornecedor[p] = {                                
+                                'quantidade': aux[0].quantidade,
+                                'nome': aux[0].nome,
+                                'valor': aux[0].valor                                
+                            }
+  
+                            this.valorTotal+= aux[0].valor;
+                            this.quantidadeTotal+= parseInt(aux[0].quantidade);
+                        }   
+                })
+                .catch(() =>{
+                    const buscaError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    buscaError();                    
+            });
         },
         validarCampos() {    
             let erro = false;

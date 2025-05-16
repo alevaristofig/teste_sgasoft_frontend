@@ -25,8 +25,8 @@ export default {
                             "Authorization": `Bearer ${sessionStorage.getItem('token')}`
                         }
                     })
-                    .then((response) => {                                                                    
-                        this.produtos = response.data.data;                         
+                    .then((response) => {                                                                                            
+                        this.produtos = response.data;                         
                     })
                     .catch(() =>{                                               
                         const listaError = () => {

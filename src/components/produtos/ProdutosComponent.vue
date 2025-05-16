@@ -49,7 +49,7 @@
                 this.$router.push({ name: 'login'});  
             } 
             
-            this.listar();
+            this.listar();            
         }    
     }
 </script>
