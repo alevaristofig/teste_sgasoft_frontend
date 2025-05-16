@@ -51,7 +51,11 @@
     export default {
         name: "CadastroProdutoComponent",
         mixins: [ProdutoMixins],
-        created() {            
+        created() {    
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+                    
             this.listarFornecedores();
         }
     }

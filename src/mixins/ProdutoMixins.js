@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     data: () => ({
@@ -18,26 +20,45 @@ export default {
     }),
     methods: {
         listar(){                
-            axios.get('http://localhost:8000/api/v1/produtos')
-                    .then((response) => {                                                                    
-                        this.produtos = response.data.data;
-                        console.log(response.data.data); 
+            axios.get('http://localhost:8000/api/v1/produtos',{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
                     })
-                    .catch((error) =>{                        
-                        console.log(error);
+                    .then((response) => {                                                                    
+                        this.produtos = response.data.data;                         
+                    })
+                    .catch(() =>{                                               
+                        const listaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        listaError();
             })
         },
         listarFornecedores(){                
-            axios.get('http://localhost:8000/api/v1/fornecedores')
+            axios.get('http://localhost:8000/api/v1/fornecedores',{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then((response) => {                                             
                         this.fornecedores = response.data
                     })
-                    .catch((error) =>{                        
-                        console.log(error);
+                    .catch(() =>{                        
+                        const listaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        listaError();
             })
         },
         buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/produtos/${id}`)
+            axios.get(`http://localhost:8000/api/v1/produtos/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
                 .then((response) => {                                        
                     this.nome = response.data.nome;
                     this.fornecedor = response.data.fornecedor_id;
@@ -45,9 +66,12 @@ export default {
                     this.cor = response.data.cor;
                     this.preco = response.data.preco;                                                        
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const buscaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    buscaError();                   
             });           
         },
         salvar() {           
@@ -60,18 +84,30 @@ export default {
                     'preco': this.preco
                 }
 
-                axios.post(`http://localhost:8000/api/v1/produtos`,data)
-                    .then(() => {
-                        alert('Produto cadastrado com sucesso');   
+                axios.post(`http://localhost:8000/api/v1/produtos`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
+                    .then(() => {                          
                         this.nome = '';
                         this.fornecedor = '';
                         this.referencia = '';
                         this.cor = '';
-                        this.preco = '';                     
+                        this.preco = '';     
+                        
+                        const insertSucesso = () => {
+                            toast("Produto criado com sucesso,", { type: "success" });
+                        };  
+                        
+                        insertSucesso(); 
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                        const insertError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        insertError();
                 });
             }
         },
@@ -86,25 +122,47 @@ export default {
                     'preco': this.preco
                 }
 
-                axios.put(`http://localhost:8000/api/v1/produtos/${id}`,data)
+                axios.put(`http://localhost:8000/api/v1/produtos/${id}`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then(() => {
-                        alert('Produto atualizado com sucesso');
+                        const editaSucesso = () => {
+                            toast("Produto atualizado com sucesso,", { type: "success" });
+                        };  
+                                                
+                        editaSucesso();
                         this.$router.push({ name: 'produto'});
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                         const editaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        editaError();
                 });
             }           
         },
         apagar(id) {
-            axios.delete(`http://localhost:8000/api/v1/produtos/${id}`)
-                .then(() => {                                        
-                    alert('Produto deletado com sucesso!');                                 
+            axios.delete(`http://localhost:8000/api/v1/produtos/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .then(() => {                                        
+                     const delSucesso = () => {
+                        toast("Produto removido com sucesso,", { type: "success" });
+                    };  
+                                                
+                    delSucesso();                                  
+                })
+                .catch(() =>{
+                    const delError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };
+
+                    delError();                      
             });     
         },                
         validarCampos() {    
