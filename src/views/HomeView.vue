@@ -6,7 +6,7 @@
         <div class="navbar-nav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="">Sair</a>
+              <button class="btn btn-sm btn-secondary" @click="logout()">Sair</button>
             </li>
           </ul>
         </div>
@@ -38,6 +38,20 @@
     </div>
   </div>
 </template>
+
+<script>
+    import UsuarioMixins from '@/mixins/UsuarioMixins';
+
+    export default {
+        name: 'HomeView',
+        mixins: [UsuarioMixins],
+        created() {
+          if(sessionStorage.getItem('token') === null) {
+            this.$router.push({ name: 'login'});  
+          }            
+        }    
+    }
+</script>
 
 <style scoped>
   .menu_superior {

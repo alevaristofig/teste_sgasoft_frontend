@@ -43,7 +43,11 @@
     export default {
         name: "UsuarioFornecedorComponent",
         mixins: [FornecedorMixins,UsuarioFornecedorMixins],
-        created() {            
+        created() { 
+             if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
+                       
             this.listar();
             this.buscarUsuarioVendedor();
         }

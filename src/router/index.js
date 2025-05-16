@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
+import LoginView from '../views/LoginView.vue';
 import HomeView from '../views/HomeView.vue';
 import UsuarioCompoment from '@/components/usuarios/UsuarioCompoment.vue';
 import FornecedoresComponent from '@/components/fornecedores/FornecedoresComponent.vue';
@@ -93,6 +94,11 @@ const routes = [
                 name: 'editarpedido'
             },
         ]
+    },
+    {
+        path: '/login',
+        component: LoginView,
+        name: 'login'
     }
 ];
 

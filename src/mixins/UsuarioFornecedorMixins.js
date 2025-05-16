@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     data: () => ({
@@ -10,13 +12,20 @@ export default {
     }),
      methods: {
         buscarUsuarioVendedor() {
-            axios.get(`http://localhost:8000/api/v1/usuarios/vendedor`)
+            axios.get(`http://localhost:8000/api/v1/usuarios/vendedor`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
                 .then((response) => {                                                           
                     this.usuarios = response.data                                    
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const buscaError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };  
+                                            
+                    buscaError();                    
             });           
         },
         salvarUsuarioFornecedor() {
@@ -26,15 +35,27 @@ export default {
                     'fornecedor_id': this.fornecedor                  
                 };
 
-                axios.post(`http://localhost:8000/api/v1/usuariofornecedor`,data)
-                    .then(() => {
-                        alert('Usuario/Fornecedor cadastrado com sucesso');   
-                        this.usuario = '';
-                        this.fornecedor = '';                                          
+                axios.post(`http://localhost:8000/api/v1/usuariofornecedor`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .then(() => {                          
+                        this.usuario = '';
+                        this.fornecedor = '';     
+                        
+                        const insertSucesso = () => {
+                            toast("Usuário criado com sucesso,", { type: "success" });
+                        };  
+                        
+                        insertSucesso(); 
+                    })
+                    .catch(() =>{
+                        const insertError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        insertError();
                 });
             }
         },

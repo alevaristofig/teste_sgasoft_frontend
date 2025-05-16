@@ -45,7 +45,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-primary" @click="salvar()">Editar</button>
+            <button type="button" class="btn btn-primary" @click="salvar()">Salvar</button>
         </div>
     </div>
 </template>
@@ -57,7 +57,9 @@
         name: "CadastroUsuarioComponent",
         mixins: [UsuarioMixins],
         created() {
-           // this.buscar(this.$route.params.id);
+            if(sessionStorage.getItem('token') === null) {
+                this.$router.push({ name: 'login'});  
+            } 
         }
     }
 </script>

@@ -1,8 +1,11 @@
 import axios from "axios";
-import bcrypt from "bcryptjs";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     data: () => ({
+        emailLogin: '',
+        password: '',
         usuarios: [],
         usuariosVendedor: [],
         nome: '',
@@ -17,89 +20,174 @@ export default {
         classTipo: false,
     }),
     methods: {
+        logar() {
+            let data = {
+                'email': this.emailLogin,
+                'password': this.password
+            }
+            
+            axios.post(`http://localhost:8000/api/v1/autenticacao`,data)
+                    .then((response) => {                        
+                        sessionStorage.setItem('token',response.data.token);
+                        sessionStorage.setItem('tipo',response.data.tipo);
+                        this.$router.push({ name: 'home'});                                        
+                    })
+                    .catch(() =>{
+                        const logarError = () => {
+                            toast("Usuário/senha não conferem,", { type: "error" });
+                        };  
+                        
+                        logarError();
+                    });
+        },
+        logout() {            
+            axios.get(`http://localhost:8000/api/v1/logout`, {
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                }                
+            })  
+            .then(() => {
+                sessionStorage.removeItem('token');
+                this.$router.push({ name: 'login'});  
+            })
+            .catch(() =>{
+                const logoutError = () => {
+                    toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                };  
+                        
+                logoutError();
+            })               
+        },
         listar(){            
-            axios.get('http://localhost:8000/api/v1/usuarios')
+            axios.get('http://localhost:8000/api/v1/usuarios',{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then((response) => {                        
                         this.usuarios = response.data
                     })
-                    .catch((error) =>{                        
-                        console.log(error);
+                    .catch(() =>{                        
+                        const listartError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };  
+                        
+                        listartError();
             })
         },
         buscar(id) {
-            axios.get(`http://localhost:8000/api/v1/usuarios/${id}`)
-                .then((response) => {                                        
-                    this.nome = response.data.nome;
+            axios.get(`http://localhost:8000/api/v1/usuarios/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
+                })
+                .then((response) => {   
+                                                       
+                    this.nome = response.data.name;
                     this.email = response.data.email;
-                    this.senha = response.data.senha;
+                    this.senha = response.data.password;
                     this.status = response.data.status;
                     this.tipo = response.data.tipo;
                                     
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .catch(() =>{
+                    const buscarError = () => {
+                        toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };  
+                        
+                    buscarError();                   
             });           
         },
         salvar() {           
-            if(this.validarCampos()) {  
-                let salt = bcrypt.genSaltSync(10);
-                let senha = bcrypt.hashSync(this.senha,salt);
+            if(this.validarCampos()) {                  
 
                 let data = {
                     'name': this.nome,
                     'email': this.email,
-                    'password': senha,
+                    'password': this.senha,
                     'status': this.status,
                     'tipo': this.tipo
                 }
 
-                axios.post(`http://localhost:8000/api/v1/usuarios`,data)
-                    .then(() => {
-                        alert('Usuario cadastrado com sucesso');   
+                axios.post(`http://localhost:8000/api/v1/usuarios`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
+                    .then(() => {                           
                         this.nome = '';
                         this.email = '';
                         this.senha = '';
                         this.status = '';
-                        this.tipo = '';                     
+                        this.tipo = '';    
+                        
+                        const insertSucesso = () => {
+                            toast("Usuário criado com sucesso,", { type: "success" });
+                        };  
+                        
+                        insertSucesso();   
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                       const insertError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        insertError();
                 });
             }
         },
         apagar(id) {
-            axios.delete(`http://localhost:8000/api/v1/usuarios/${id}`)
-                .then(() => {                                        
-                    alert('Usuario deletado com sucesso!');                                 
+            axios.delete(`http://localhost:8000/api/v1/usuarios/${id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                    }
                 })
-                .catch((error) =>{
-                    console.log(error);
-                    alert('Ocorreu um erro');                    
+                .then(() => {                                        
+                    const delSucesso = () => {
+                        toast("Usuário removido com sucesso,", { type: "success" });
+                    };  
+                        
+                    delSucesso();
+                    this.$router.push({ name: 'usuario'});                                 
+                })
+                .catch(() =>{                    
+                    const delError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                    };  
+                        
+                    delError();                                        
             });     
         },
-        editarUsuario(id) {           
+        editarUsuario(id) {                    
             if(this.validarCampos()) {                                 
-                let salt = bcrypt.genSaltSync(10);
-                let senha = bcrypt.hashSync(this.senha,salt);
 
                 let data = {
                     'name': this.nome,
                     'email': this.email,
-                    'password': senha,
+                    'password': this.senha,
                     'status': this.status,
                     'tipo': this.tipo
                 }
 
-                axios.put(`http://localhost:8000/api/v1/usuarios/${id}`,data)
+                axios.put(`http://localhost:8000/api/v1/usuarios/${id}`,data,{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then(() => {
-                        alert('Usuario atualizado com sucesso');
+                         const editarSucesso = () => {
+                        toast("Usuário removido com sucesso,", { type: "success" });
+                    };  
+                        
+                        editarSucesso();
                         this.$router.push({ name: 'usuario'});
                     })
-                    .catch((error) =>{
-                        alert('Ocorreu um erro');
-                        console.log(error);
+                    .catch(() =>{
+                        const editarError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };  
+                        
+                        editarError();  
                 });
             }           
         },        
@@ -127,8 +215,7 @@ export default {
                 this.classSenha = false;
             }
 
-            if(this.status === '') {   
-                alert('sim')             
+            if(this.status === '') {                            
                 this.classStatus = true;
                 erro = true;
             } else {

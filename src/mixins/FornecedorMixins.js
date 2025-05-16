@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 export default {
     data: () => ({
@@ -16,12 +18,20 @@ export default {
     }),
     methods: {
         listar(){                
-            axios.get('http://localhost:8000/api/v1/fornecedores')
+            axios.get('http://localhost:8000/api/v1/fornecedores',{
+                        headers: {
+                            "Authorization": `Bearer ${sessionStorage.getItem('token')}`
+                        }
+                    })
                     .then((response) => {                                                                 
                         this.fornecedores = response.data
                     })
-                    .catch((error) =>{                        
-                        console.log(error);
+                    .catch(() =>{                        
+                        const listaError = () => {
+                            toast("Ocorreu um erro e a operação não foi realizada,", { type: "error" });
+                        };
+
+                        listaError();
             })
         },
         buscar(id) {
