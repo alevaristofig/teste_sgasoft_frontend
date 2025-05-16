@@ -15,13 +15,23 @@
 
     <div class="d-flex">
       <div class="list-group menu_esquerdo">
-        <router-link class="list-group-item" :to="{ name: 'usuario'}" exact-active-class="true">
+        <router-link 
+          class="list-group-item" 
+          :to="{ name: 'usuario'}" 
+          v-if="tipoUsuario == 'A'"
+          >
           <i class="bi bi-person-vcard-fill">Usuário</i>
         </router-link>   
-        <router-link class="list-group-item" :to="{ name: 'usuariofornecedor'}" exact-active-class="true">
+        <router-link 
+          class="list-group-item" 
+          :to="{ name: 'usuariofornecedor'}" 
+          v-if="tipoUsuario == 'A'">
           <i class="bi bi-people-fill">Usuário x Fornecedor</i>
         </router-link>     
-        <router-link class="list-group-item" :to="{ name: 'fornecedor'}" exact-active-class="true">
+        <router-link 
+          class="list-group-item" 
+          :to="{ name: 'fornecedor'}" 
+          v-if="tipoUsuario == 'A'">
           <i class="bi bi-person-fill-up">Fornecedores</i>
         </router-link>  
         <router-link class="list-group-item" :to="{ name: 'produto'}" exact-active-class="true">
@@ -48,7 +58,9 @@
         created() {
           if(sessionStorage.getItem('token') === null) {
             this.$router.push({ name: 'login'});  
-          }            
+          }     
+          
+          this.tipoUsuario = sessionStorage.getItem('tipo');          
         }    
     }
 </script>

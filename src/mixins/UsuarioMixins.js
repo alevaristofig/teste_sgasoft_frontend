@@ -13,6 +13,7 @@ export default {
         senha: '',
         status: '',
         tipo: '',
+        tipoUsuario: '', 
         classNome: false,
         classEmail: false,
         classSenha: false,
